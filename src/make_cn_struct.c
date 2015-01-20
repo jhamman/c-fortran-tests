@@ -1,4 +1,3 @@
-
 #include <test.h>
 
 /**
@@ -6,19 +5,20 @@
  * @details This function allocates and initializes a CN data structure
  *
  * @param Nbands Number of elevation bands [1, max_bands]
- * @param Nnode Number of soil temperature nodes [1, max_nodes]
+ * @param Nnodes Number of soil temperature nodes [1, max_nodes]
  * @param cn Pointer to complete CN data structure
  */
 void
-make_cn_struct(size_t Nbands, size_t Nnode, cn_data_struct **cn)
+make_cn_struct(size_t           Nbands,
+               size_t           Nnodes,
+               cn_data_struct **cn)
 {
-
     size_t iband, iveg, k;
 
     *cn = (cn_data_struct *) calloc(Nbands, sizeof(cn_data_struct));
 
-    for(iband = 0; iband < Nbands; iband++) {
-        for(iveg = 0; iveg < MAX_PFT; iveg++) {
+    for (iband = 0; iband < Nbands; iband++) {
+        for (iveg = 0; iveg < MAX_PFT; iveg++) {
             (*cn)[iband].LAI[iveg] = MISSING;
             (*cn)[iband].dormant_flag[iveg] = MISSING;
             (*cn)[iband].days_active[iveg] = MISSING;
@@ -115,8 +115,9 @@ make_cn_struct(size_t Nbands, size_t Nnode, cn_data_struct **cn)
         (*cn)[iband].annsum_counter = MISSING;
         (*cn)[iband].cannsum_npp = MISSING;
         (*cn)[iband].cannavg_t2m = MISSING;
-        for(k = 0; k < Nnode; k++)
+        for (k = 0; k < Nnodes; k++) {
             (*cn)[iband].watfc[k] = MISSING;
+        }
         (*cn)[iband].me = MISSING;
         (*cn)[iband].fire_prob = MISSING;
         (*cn)[iband].mean_fire_prob = MISSING;
@@ -162,13 +163,14 @@ make_cn_struct(size_t Nbands, size_t Nnode, cn_data_struct **cn)
  */
 void
 free_cn(cn_data_struct **cn)
+
 /***************************************************************************
-  Modifications:
+   Modifications:
 ***************************************************************************/
 {
+    if (*cn == NULL) {
+        return;
+    }
 
-  if (*cn == NULL)
-    return;
-
-  free(*cn);
+    free(*cn);
 }

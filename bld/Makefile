@@ -10,10 +10,10 @@ INCLUDEPATH = ../include
 SHELL = /bin/bash
 
 # Set CC = your compiler here
-CC = gcc
+CC = /opt/local/bin/gcc
 
 # Set F90 = your Fortran compiler here
-FC = gfortran
+FC = /opt/local/bin/gfortran
 
 # set includes
 INCLUDES = -I ${INCLUDEPATH}
@@ -43,7 +43,8 @@ TARGET = test.exe
 SRCS = \
 	${SRCPATH}/test1_c.c \
 	${SRCPATH}/test_print.c \
-	${SRCPATH}/make_cn_struct.c
+	${SRCPATH}/make_cn_struct.c \
+	${SRCPATH}/test1.F90
 
 # test.o: test.h
 
@@ -53,7 +54,7 @@ $(TARGET) : $(OBJS)
 		$(FC) -o $@ $^
 %.o: %.c
 		$(CC) -c $(CFLAGS) -o $@ $<
-%.o: %.f90
+%.o: %.F90
 		$(FC) -c $(FCFLAGS) -o $@ $<
 
 .PHONY : clean
