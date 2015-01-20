@@ -10,19 +10,18 @@ INCLUDEPATH = ../include
 SHELL = /bin/bash
 
 # Set CC = your compiler here
-CC = /opt/local/bin/gcc
+CC = gcc
 
 # Set F90 = your Fortran compiler here
-FC = /opt/local/bin/gfortran
+FC = gfortran
 
 # set includes
 INCLUDES = -I ${INCLUDEPATH}
 
 # Flags
-CFLAGS =  ${INCLUDES} -g -Wall -Wno-unused -std=c99
-FFLAGS =  -fp-model precise -convert big_endian -assume byterecl -ftz
-
-FLIBS=-lgfortran
+CFLAGS =  ${INCLUDES} -g -Wall -Wno-unused -std=c99 
+# uncomment for intel compilers (ifort)
+#FFLAGS = -nofor-main
 
 # -----------------------------------------------------------------------
 # MOST USERS DO NOT NEED TO MODIFY BELOW THIS LINE
@@ -52,11 +51,11 @@ SRCS = \
 OBJS = $(addsuffix .o,$(basename $(SRCS)))
 
 $(TARGET) : $(OBJS)
-		$(FC) -o $@ $^
+		$(FC) $(FFLAGS) -o $@ $^
 %.o: %.c
 		$(CC) -c $(CFLAGS) -o $@ $< $(FLIBS)
 %.o: %.F90
-		$(FC) -c $(FCFLAGS) -o $@ $< $(FLIBS)
+		$(FC) -c $(FFLAGS) -o $@ $< $(FLIBS)
 
 .PHONY : clean
 clean:
