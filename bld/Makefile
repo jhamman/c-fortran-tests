@@ -19,9 +19,10 @@ FC = /opt/local/bin/gfortran
 INCLUDES = -I ${INCLUDEPATH}
 
 # Flags
-CFLAGS =  ${INCLUDES} -g -Wall -Wno-unused
+CFLAGS =  ${INCLUDES} -g -Wall -Wno-unused -std=c99
 FFLAGS =  -fp-model precise -convert big_endian -assume byterecl -ftz
 
+FLIBS=-lgfortran
 
 # -----------------------------------------------------------------------
 # MOST USERS DO NOT NEED TO MODIFY BELOW THIS LINE
@@ -53,9 +54,9 @@ OBJS = $(addsuffix .o,$(basename $(SRCS)))
 $(TARGET) : $(OBJS)
 		$(FC) -o $@ $^
 %.o: %.c
-		$(CC) -c $(CFLAGS) -o $@ $<
+		$(CC) -c $(CFLAGS) -o $@ $< $(FLIBS)
 %.o: %.F90
-		$(FC) -c $(FCFLAGS) -o $@ $<
+		$(FC) -c $(FCFLAGS) -o $@ $< $(FLIBS)
 
 .PHONY : clean
 clean:

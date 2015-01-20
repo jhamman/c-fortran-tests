@@ -1,5 +1,5 @@
 
-subroutine use_cn_data_struct(Nbands, Nnodes, Npfts, cn_data) BIND(C, name='use_cn_data_struct')
+subroutine use_cn_data_struct(Nbands, Nnodes, Npfts, p_cn_data) BIND(C, name='use_cn_data_struct')
     USE, INTRINSIC :: ISO_C_BINDING
     implicit none
 
@@ -151,16 +151,21 @@ subroutine use_cn_data_struct(Nbands, Nnodes, Npfts, cn_data) BIND(C, name='use_
         REAL(C_DOUBLE) :: prod100n;                  ! wood product N pool, 100-yr lifespan (g N/m^2)
     END TYPE vic_cn_data_type
 
-    type(vic_cn_data_type), DIMENSION(:), intent(inout) :: cn_data
+    type(c_ptr), value :: p_cn_data
 
     ! Local variables
     integer :: iband, inode, iveg
+    type(vic_cn_data_type), dimension(:), pointer :: cn_data
 
     print*, "In use_cn_data_struct()"
     print*, "Printing parameters..."
     print*, "Nbands: ", Nbands
     print*, "Nnodes: ", Nnodes
     print*, "Npfts: ", Npfts
+
+    ! associate the c pointers to fortran pointers
+    ! to arrays of dimension nx
+    call c_f_pointer(p_cn_data, cn_data, [Nbands])
 
     do iband=1,Nbands
         do iveg=1,Npfts

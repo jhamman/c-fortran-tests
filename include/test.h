@@ -168,6 +168,6 @@ void make_cn_struct(size_t Nbands, size_t Nnode, cn_data_struct **cn);
 void print_cn_structure(size_t Nbands, size_t Nnodes, cn_data_struct **cn);
 void free_cn(cn_data_struct **cn);
 void use_cn_data_struct(size_t Nbands, size_t Nnodes, size_t Npfts,
-                        cn_data_struct *cn[]);
+                        cn_data_struct *cn);
 
 #endif

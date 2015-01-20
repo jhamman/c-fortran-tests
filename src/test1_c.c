@@ -21,7 +21,7 @@ main()
     // call fortran routine
     fprintf(stderr, "\nCalling fortran subroutine\n\n");
     use_cn_data_struct((size_t) NBANDS, (size_t) NNODES, (size_t) MAX_PFT,
-                       &cn);
+                       cn);
 
     // Print cn
     fprintf(stderr, "\nPrinting cn_data_struct\n\n");
